@@ -14,16 +14,8 @@ import (
 
 func uploadCommand(c *Config) *ffcli.Command {
 	fs := flag.NewFlagSet("cli upload", flag.ExitOnError)
-	//var (
-	//	createFlags struct {
-	//		// Add flags specific to the "create" subcommand
-	//		foo string
-	//	}
-	//)
 
 	var projectName, userName string
-
-	//fs.StringVar(&createFlags.foo, "foo", "", "Foo option for create command")
 	fs.StringVar(&projectName, "p", "", "project name")
 	fs.StringVar(&userName, "u", "", "user name")
 
