@@ -15,17 +15,9 @@ import (
 // createProjectCommand creates a new project for user
 func createProjectCommand(c *Config) *ffcli.Command {
 	fs := flag.NewFlagSet("cli create", flag.ExitOnError)
-	//var (
-	//	createFlags struct {
-	//		// Add flags specific to the "create" subcommand
-	//		foo string
-	//	}
-	//)
 
 	username := ""
 
-	//fs.StringVar(&createFlags.foo, "foo", "", "Foo option for create command")
-	//fs.StringVar(&p.ProjectName, "p", "", "project name")
 	fs.StringVar(&username, "u", "", "user name")
 
 	return &ffcli.Command{

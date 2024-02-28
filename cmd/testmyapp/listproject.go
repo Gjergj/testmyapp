@@ -12,17 +12,8 @@ import (
 
 func listProjectCommand(c *Config) *ffcli.Command {
 	fs := flag.NewFlagSet("cli list", flag.ExitOnError)
-	//var (
-	//	createFlags struct {
-	//		// Add flags specific to the "create" subcommand
-	//		foo string
-	//	}
-	//)
 
 	var username string
-
-	//fs.StringVar(&createFlags.foo, "foo", "", "Foo option for create command")
-	//fs.StringVar(&p.ProjectName, "p", "", "project name")
 	fs.StringVar(&username, "u", "", "user name")
 
 	return &ffcli.Command{
