@@ -1,11 +1,11 @@
 package models
 
 type User struct {
-	ID       string `db:"id"  json:"id,omitempty"`
-	Username string `db:"username" json:"username,omitempty"`
-	Password string `db:"password" json:"password,omitempty"`
-	Active   bool   `db:"active" json:"active,omitempty"`
-	Deleted  bool   `db:"deleted" json:"deleted,omitempty"`
+	ID       string `json:"id,omitempty"`
+	Username string `json:"username,omitempty"`
+	Password string `json:"password,omitempty"`
+	Active   bool   `json:"active,omitempty"`
+	Deleted  bool   `json:"deleted,omitempty"`
 }
 
 type ApiResponse struct {
