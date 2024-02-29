@@ -53,8 +53,6 @@ brews:
     repository:
       owner: Gjergj
       name: homebrew-tap
-    install: |-
-      bin.install "task"
     commit_author:
       name: testmyapp-bot
       email: gjergjiramku@gmail.com
