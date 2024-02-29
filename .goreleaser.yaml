@@ -51,8 +51,8 @@ brews:
     homepage: https://github.com/gjergj/testmyapp
     folder: Formula
     repository:
-      owner: testmyapp
-      name: homebrew-tap
+      owner: gjergj
+      name: testmyapp
     install: |-
       bin.install "task"
     commit_author:
