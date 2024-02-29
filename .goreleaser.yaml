@@ -49,7 +49,7 @@ brews:
     description: Cli for testmyapp.io
     license: MIT
     homepage: https://github.com/gjergj/testmyapp
-    folder: brew
+    folder: Formula
     repository:
       owner: gjergj
       name: testmyapp_brew
