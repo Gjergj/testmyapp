@@ -49,10 +49,10 @@ brews:
     description: Cli for testmyapp.io
     license: MIT
     homepage: https://github.com/gjergj/testmyapp
-    folder: Formula
+    folder: brew
     repository:
       owner: gjergj
-      name: testmyapp
+      name: testmyapp_brew
     install: |-
       bin.install "task"
     commit_author:
