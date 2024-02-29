@@ -52,7 +52,7 @@ brews:
     folder: Formula
     repository:
       owner: Gjergj
-      name: homebrew-Gjergj
+      name: homebrew-tap
     install: |-
       bin.install "task"
     commit_author:
