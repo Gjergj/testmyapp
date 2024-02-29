@@ -43,3 +43,18 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+
+brews:
+  - name: testmyapp
+    description: Cli for testmyapp.io
+    license: MIT
+    homepage: https://github.com/gjergj/testmyapp
+    folder: Formula
+    repository:
+      owner: testmyapp
+      name: homebrew-tap
+    install: |-
+      bin.install "task"
+    commit_author:
+      name: testmyapp-bot
+      email: gjergjiramku@gmail.com
