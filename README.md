@@ -1,7 +1,9 @@
-## Nothing to see here. Just testing some ideas.
+## CLI for testmyapp.io
+
+Still very much a work in progress.
 
 
 ### Install
 ```bash
-brew install Gjergj/tap/testmyapp
+brew install gjergj/tap/testmyapp
 ```

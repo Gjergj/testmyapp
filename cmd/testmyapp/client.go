@@ -75,11 +75,6 @@ func (c *CustomHTTPClient) Upload(url string, files []string) (*http.Response, e
 			return nil, err
 		}
 	}
-
-	//// Add project_name and user_name to the form data
-	//writer.WriteField("project_name", projectName)
-	//writer.WriteField("username", userID)
-
 	// Close the multipart writer
 	writer.Close()
 

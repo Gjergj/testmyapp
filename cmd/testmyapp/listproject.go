@@ -74,6 +74,6 @@ func getAllProjectsByUserID(username string, c *Config) {
 	}
 
 	for _, p := range apiResp.Projects {
-		fmt.Printf("%s\t%s\n", p.ProjectName, p.URL)
+		fmt.Printf("%s\n", p.URL)
 	}
 }
