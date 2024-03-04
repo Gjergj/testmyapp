@@ -38,13 +38,6 @@ func createProject(username string, c *Config) {
 	client := NewCustomHTTPClient(apiHost, t, r)
 	serverURL := fmt.Sprintf("%s/v1/users/%s/projects", apiHost, userID)
 
-	//// Convert ProjectInfo struct to JSON
-	//jsonData, err := json.Marshal(project)
-	//if err != nil {
-	//	fmt.Println("Error marshalling JSON:", err)
-	//	return
-	//}
-
 	response, err := client.Post(serverURL, nil)
 
 	defer response.Body.Close()
@@ -54,13 +47,6 @@ func createProject(username string, c *Config) {
 		fmt.Println("Error reading response body:", err)
 		return
 	}
-
-	// Check the response status
-	//if response.StatusCode != http.StatusOK {
-	//	fmt.Printf("HTTP request failed with status code: %d\n", response.StatusCode)
-	//	return
-	//}
-
 	// Parse the response body to get the JWT and refresh token
 	apiResp := models.CreateProjectResponse{}
 	err = json.Unmarshal(responseBody, &apiResp)

@@ -26,7 +26,7 @@ const (
 // For example, if your application is named Manager, you would typically store its data in ~/Library/Application Support/Manager/.
 // On Linux, application-specific data and configuration files are typically stored in the /etc/ directory for system-wide applications. For user-specific applications, data is usually stored in the user's home directory under a subdirectory that starts with a dot, for example ~/.myapp/.
 // For Linux, it returns ~/.config. For macOS, it returns ~/Library/Application Support.
-const configDirName = "cli"
+const configDirName = "testmyapp.io"
 
 func main() {
 	ctx := context.Background()
@@ -36,18 +36,12 @@ func main() {
 	}
 	var (
 		globalFlags = flag.NewFlagSet("cli", flag.ExitOnError)
-		//username    string
-		//projectID string
-		//workflow  bool
 	)
-
-	//globalFlags.StringVar(&projectID, "p", "", "Project ID")
-	//globalFlags.BoolVar(&workflow, "w", false, "Watch file changes and upload")
 
 	// Define the root command
 	root := &ffcli.Command{
-		Name:       "cli",
-		ShortUsage: "cli [flags] <subcommand>",
+		Name:       "testmyapp",
+		ShortUsage: "testmyapp [flags] <subcommand>",
 		FlagSet:    globalFlags,
 		Subcommands: []*ffcli.Command{
 			createProjectCommand(&cfg),
@@ -104,15 +98,7 @@ func ensureConfigFile() (string, error) {
 
 func watchCommand(c *Config) *ffcli.Command {
 	fs := flag.NewFlagSet("cli watch", flag.ExitOnError)
-	//var (
-	//	createFlags struct {
-	//		// Add flags specific to the "create" subcommand
-	//		foo string
-	//	}
-	//)
-
 	var projectName, userID string
-	//fs.StringVar(&createFlags.foo, "foo", "", "Foo option for create command")
 	fs.StringVar(&projectName, "p", "", "project name")
 	fs.StringVar(&userID, "u", "", "user name")
 
@@ -187,7 +173,6 @@ func uploadDir(uploadType uploadDirType) string {
 	case uploadDirWatchCurrentRecursive:
 		watchDir = "./..."
 	}
-	//fmt.Println("Watching directory:", watchDir)
 	return watchDir
 }
 
@@ -225,10 +210,5 @@ func getFiles(dir string) []string {
 		fmt.Println("Error getting files:", err)
 		return nil
 	}
-	//for _, entry := range entries {
-	//	if !entry.IsDir() {
-	//		files = append(files, entry.Name())
-	//	}
-	//}
 	return files
 }

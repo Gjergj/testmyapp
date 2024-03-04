@@ -14,7 +14,7 @@ func getConfig() (Config, error) {
 	}
 	// Open the config file
 	configFile, err := os.Open(f)
-	//fmt.Println("configFile: ", f)
+
 	if err != nil {
 		fmt.Println("Error opening config file:", err)
 		return Config{}, err

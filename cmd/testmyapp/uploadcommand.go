@@ -75,12 +75,6 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		return
 	}
 
-	//// Check the response status
-	//if response.StatusCode != http.StatusOK {
-	//	fmt.Printf("HTTP request failed with status code: %d\n", response.StatusCode)
-	//	return
-	//}
-
 	// Check if the token has changed
 	if cl.Token != t {
 		c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)

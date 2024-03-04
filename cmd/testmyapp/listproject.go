@@ -31,7 +31,6 @@ func listProjectCommand(c *Config) *ffcli.Command {
 func getAllProjectsByUserID(username string, c *Config) {
 	t, userID, userName := c.Token(username)
 	r, _ := c.RefreshToken(username)
-	//fmt.Println("Token:", t)
 	cl := NewCustomHTTPClient(apiHost, t, r)
 
 	// URL to send the GET request to
@@ -49,13 +48,6 @@ func getAllProjectsByUserID(username string, c *Config) {
 		fmt.Println("Error reading response body:", err)
 		return
 	}
-
-	// Check the response status
-	//if response.StatusCode != http.StatusOK {
-	//	fmt.Printf("HTTP request failed with status code: %d\n", response.StatusCode)
-	//	return
-	//}
-
 	// Parse the response body to get the JWT and refresh token
 	apiResp := models.GetProjectsResponse{}
 	err = json.Unmarshal(responseBody, &apiResp)
