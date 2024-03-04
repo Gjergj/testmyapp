@@ -14,7 +14,7 @@ import (
 
 // createProjectCommand creates a new project for user
 func createProjectCommand(c *Config) *ffcli.Command {
-	fs := flag.NewFlagSet("cli create", flag.ExitOnError)
+	fs := flag.NewFlagSet("testmyapp create", flag.ExitOnError)
 
 	username := ""
 

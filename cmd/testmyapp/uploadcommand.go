@@ -13,7 +13,7 @@ import (
 )
 
 func uploadCommand(c *Config) *ffcli.Command {
-	fs := flag.NewFlagSet("cli upload", flag.ExitOnError)
+	fs := flag.NewFlagSet("testmyapp upload", flag.ExitOnError)
 
 	var projectName, userName string
 	fs.StringVar(&projectName, "p", "", "project name")

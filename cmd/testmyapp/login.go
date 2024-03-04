@@ -12,7 +12,7 @@ import (
 
 // loginCommand creates the "login" subcommand
 func loginCommand(cfg *Config) *ffcli.Command {
-	fs := flag.NewFlagSet("cli login", flag.ExitOnError)
+	fs := flag.NewFlagSet("testmyapp login", flag.ExitOnError)
 	var (
 		loginFlags struct {
 			// Add flags specific to the "login" subcommand

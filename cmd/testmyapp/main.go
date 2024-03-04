@@ -49,6 +49,7 @@ func main() {
 			uploadCommand(&cfg),
 			listProjectCommand(&cfg),
 			watchCommand(&cfg),
+			versionCommand(&cfg),
 		},
 	}
 

@@ -11,7 +11,7 @@ import (
 )
 
 func listProjectCommand(c *Config) *ffcli.Command {
-	fs := flag.NewFlagSet("cli list", flag.ExitOnError)
+	fs := flag.NewFlagSet("testmyapp list", flag.ExitOnError)
 
 	var username string
 	fs.StringVar(&username, "u", "", "user name")
