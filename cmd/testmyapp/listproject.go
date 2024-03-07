@@ -8,6 +8,7 @@ import (
 	"github.com/Gjergj/testmyapp/pkg/models"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"io"
+	"os"
 )
 
 func listProjectCommand(c *Config) *ffcli.Command {
@@ -18,7 +19,7 @@ func listProjectCommand(c *Config) *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "create [flags]",
+		ShortUsage: "list [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
 			getAllProjectsByUserID(username, c)
@@ -64,8 +65,18 @@ func getAllProjectsByUserID(username string, c *Config) {
 	if cl.Token != t {
 		c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)
 	}
-
-	for _, p := range apiResp.Projects {
-		fmt.Printf("%s\n", p.URL)
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error getting current directory:", err)
+		return
+	}
+	for _, project := range apiResp.Projects {
+		fmt.Printf(project.URL)
+		for _, p := range c.Accounts[userName].Projects {
+			if p.ProjectName == project.ProjectName && p.ProjectDir == pwd {
+				fmt.Printf("\t←")
+			}
+		}
+		fmt.Println()
 	}
 }

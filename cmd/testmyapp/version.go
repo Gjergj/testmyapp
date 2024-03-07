@@ -7,7 +7,7 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
-// set by goreleaser at build time ,Current Git tag (the v prefix is stripped) or the name of the snapshot, if you're using the --snapshot flag
+// set by goreleaser at build time ,https://goreleaser.com/cookbooks/using-main.version/
 var version string
 
 func versionCommand(c *Config) *ffcli.Command {
