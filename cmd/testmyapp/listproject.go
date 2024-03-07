@@ -15,21 +15,23 @@ func listProjectCommand(c *Config) *ffcli.Command {
 	fs := flag.NewFlagSet("testmyapp list", flag.ExitOnError)
 
 	var username string
+	var printDir bool
 	fs.StringVar(&username, "u", "", "user name")
+	fs.BoolVar(&printDir, "d", false, "print directories")
 
 	return &ffcli.Command{
 		Name:       "list",
 		ShortUsage: "list [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			getAllProjectsByUserID(username, c)
+			getAllProjectsByUserID(username, printDir, c)
 			return nil
 		},
 	}
 }
 
 // method that makes a get request to the server to fetch all projects for a user where user id is in the header
-func getAllProjectsByUserID(username string, c *Config) {
+func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 	t, userID, userName := c.Token(username)
 	r, _ := c.RefreshToken(username)
 	cl := NewCustomHTTPClient(apiHost, t, r)
@@ -71,21 +73,28 @@ func getAllProjectsByUserID(username string, c *Config) {
 		return
 	}
 	for _, project := range apiResp.Projects {
-		fmt.Printf(project.URL)
+
 		found := false
+		dir := ""
 		for _, p := range c.Accounts[userName].Projects {
 			if p.ProjectName == project.ProjectName && p.ProjectDir == pwd {
 				// Print the current directory with an arrow
-				fmt.Printf("\t←")
+				fmt.Printf("→")
 				found = true
+				dir = p.ProjectDir
 			} else if p.ProjectName == project.ProjectName {
 				// exists in this account but not in this pc
 				found = true
+				dir = p.ProjectDir
 			}
 		}
 		if !found {
 			// not found in this account
-			fmt.Printf("\t❌")
+			fmt.Printf("❌")
+		}
+		fmt.Printf("\t%s", project.URL)
+		if printDirs {
+			fmt.Printf("\t%s", dir)
 		}
 		fmt.Println()
 	}
