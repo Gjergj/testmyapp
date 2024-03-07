@@ -72,10 +72,20 @@ func getAllProjectsByUserID(username string, c *Config) {
 	}
 	for _, project := range apiResp.Projects {
 		fmt.Printf(project.URL)
+		found := false
 		for _, p := range c.Accounts[userName].Projects {
 			if p.ProjectName == project.ProjectName && p.ProjectDir == pwd {
+				// Print the current directory with an arrow
 				fmt.Printf("\t←")
+				found = true
+			} else if p.ProjectName == project.ProjectName {
+				// exists in this account but not in this pc
+				found = true
 			}
+		}
+		if !found {
+			// not found in this account
+			fmt.Printf("\t❌")
 		}
 		fmt.Println()
 	}
