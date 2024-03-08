@@ -50,6 +50,7 @@ func main() {
 			listProjectCommand(&cfg),
 			watchCommand(&cfg),
 			versionCommand(&cfg),
+			deleteCommand(&cfg),
 		},
 	}
 
