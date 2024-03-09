@@ -20,13 +20,16 @@ func deleteCommand(c *Config) *ffcli.Command {
 		ShortUsage: "delete [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			deleteProject(projectName, userName, c)
+			err := deleteProject(projectName, userName, c)
+			if err != nil {
+				return err
+			}
 			return nil
 		},
 	}
 }
 
-func deleteProject(projectName, userName string, c *Config) {
+func deleteProject(projectName, userName string, c *Config) error {
 
 	_, _, userName = c.Token(userName)
 	//r, _ := c.RefreshToken(userName)
@@ -35,15 +38,13 @@ func deleteProject(projectName, userName string, c *Config) {
 		pwd, _ := os.Getwd()
 		for _, project := range c.Accounts[userName].Projects {
 			if project.ProjectDir == pwd {
-				projectName = project.ProjectName
+				c.RemoveProject(userName, project.ProjectName)
 			}
 		}
 	}
-
-	account := c.Accounts[userName]
-	account.RemoveProject(projectName)
 	err := c.Save()
 	if err != nil {
 		fmt.Println("Error saving config file:", err)
 	}
+	return err
 }

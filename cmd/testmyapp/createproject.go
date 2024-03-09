@@ -34,7 +34,21 @@ func createProjectCommand(c *Config) *ffcli.Command {
 func createProject(username string, c *Config) {
 	t, userID, username := c.Token(username)
 	r, _ := c.RefreshToken(username)
-	//fmt.Println("Token:", t)
+
+	path, err := os.Getwd()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// check if there's a project for the user in the current directory
+	if _, ok := c.GetProjectID(userID, path); ok {
+		fmt.Println("Project already exists in this directory")
+		fmt.Println("Try running the 'testmyapp list' command to see all your projects")
+		fmt.Println("Run 'testmyapp delete' to delete the project in this directory")
+		return
+	}
+
 	client := NewCustomHTTPClient(apiHost, t, r)
 	serverURL := fmt.Sprintf("%s/v1/users/%s/projects", apiHost, userID)
 
@@ -53,16 +67,6 @@ func createProject(username string, c *Config) {
 	if err != nil {
 		fmt.Println("Error parsing JSON response:", err)
 		return
-	}
-
-	path, err := os.Getwd()
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	if pID, ok := c.GetProjectID(userID, path); ok {
-		c.RemoveProject(username, pID)
 	}
 
 	c.AddProject(username, Project{

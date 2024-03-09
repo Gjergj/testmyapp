@@ -95,7 +95,6 @@ func (c *Config) GetProjectID(userID, directory string) (string, bool) {
 			return account.DirectoryProject(directory)
 		}
 	}
-	fmt.Println("Account does not exist, specify account or login")
 	return "", false
 }
 
