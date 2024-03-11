@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/peterbourgon/ff/v3/ffcli"
+	"io"
 	"os"
 )
 
@@ -31,20 +32,43 @@ func deleteCommand(c *Config) *ffcli.Command {
 
 func deleteProject(projectName, userName string, c *Config) error {
 
-	_, _, userName = c.Token(userName)
-	//r, _ := c.RefreshToken(userName)
+	t, userID, userName := c.Token(userName)
+	r, _ := c.RefreshToken(userName)
+	deleted := false
 
+	// if project name was not provided, assume we want to delete project in current directory
 	if projectName == "" {
 		pwd, _ := os.Getwd()
 		for _, project := range c.Accounts[userName].Projects {
 			if project.ProjectDir == pwd {
 				c.RemoveProject(userName, project.ProjectName)
+				projectName = project.ProjectName
+				deleted = true
 			}
 		}
 	}
-	err := c.Save()
-	if err != nil {
-		fmt.Println("Error saving config file:", err)
+	if deleted {
+		err := c.Save()
+		if err != nil {
+			fmt.Println("Error saving config file:", err)
+		}
+
+		client := NewCustomHTTPClient(apiHost, t, r)
+		serverURL := fmt.Sprintf("%s/v1/users/%s/projects/%s", apiHost, userID, projectName)
+		response, err := client.Delete(serverURL, nil)
+
+		defer response.Body.Close()
+		if response.StatusCode != 200 {
+			fmt.Println("Error deleting project:", response.Status)
+			// Read the response body
+			responseBody, err := io.ReadAll(response.Body)
+			if err != nil {
+				fmt.Println("Error reading response body:", err)
+				return err
+			}
+			fmt.Println(string(responseBody))
+			return nil
+		}
 	}
-	return err
+	return nil
 }

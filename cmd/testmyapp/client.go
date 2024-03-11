@@ -43,6 +43,10 @@ func (c *CustomHTTPClient) Post(url string, body interface{}) (*http.Response, e
 	return c.doRequest(http.MethodPost, url, "application/json", body)
 }
 
+func (c *CustomHTTPClient) Delete(url string, body interface{}) (*http.Response, error) {
+	return c.doRequest(http.MethodDelete, url, "application/json", body)
+}
+
 func (c *CustomHTTPClient) Put(url string, body interface{}) (*http.Response, error) {
 	return c.doRequest(http.MethodPut, url, "application/json", body)
 }
