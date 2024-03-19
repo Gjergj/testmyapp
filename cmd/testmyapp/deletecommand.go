@@ -34,7 +34,6 @@ func deleteProject(projectName, userName string, c *Config) error {
 
 	t, userID, userName := c.Token(userName)
 	r, _ := c.RefreshToken(userName)
-	deleted := false
 
 	// if project name was not provided, assume we want to delete project in current directory
 	if projectName == "" {
@@ -43,32 +42,33 @@ func deleteProject(projectName, userName string, c *Config) error {
 			if project.ProjectDir == pwd {
 				c.RemoveProject(userName, project.ProjectName)
 				projectName = project.ProjectName
-				deleted = true
 			}
 		}
+	} else {
+		c.RemoveProject(userName, projectName)
 	}
-	if deleted {
-		err := c.Save()
+
+	err := c.Save()
+	if err != nil {
+		fmt.Println("Error saving config file:", err)
+		return err
+	}
+
+	client := NewCustomHTTPClient(apiHost, t, r)
+	serverURL := fmt.Sprintf("%s/v1/users/%s/projects/%s", apiHost, userID, projectName)
+	response, err := client.Delete(serverURL, nil)
+
+	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		fmt.Println("Error deleting project:", response.Status)
+		// Read the response body
+		responseBody, err := io.ReadAll(response.Body)
 		if err != nil {
-			fmt.Println("Error saving config file:", err)
+			fmt.Println("Error reading response body:", err)
+			return err
 		}
-
-		client := NewCustomHTTPClient(apiHost, t, r)
-		serverURL := fmt.Sprintf("%s/v1/users/%s/projects/%s", apiHost, userID, projectName)
-		response, err := client.Delete(serverURL, nil)
-
-		defer response.Body.Close()
-		if response.StatusCode != 200 {
-			fmt.Println("Error deleting project:", response.Status)
-			// Read the response body
-			responseBody, err := io.ReadAll(response.Body)
-			if err != nil {
-				fmt.Println("Error reading response body:", err)
-				return err
-			}
-			fmt.Println(string(responseBody))
-			return nil
-		}
+		fmt.Println(string(responseBody))
+		return nil
 	}
 	return nil
 }
