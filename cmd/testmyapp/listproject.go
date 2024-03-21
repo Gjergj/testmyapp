@@ -72,29 +72,72 @@ func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 		fmt.Println("Error getting current directory:", err)
 		return
 	}
-	for _, project := range apiResp.Projects {
+	type p struct {
+		Icon               string
+		ProjectURL         string
+		ProjectDir         string
+		ProjectName        string
+		ExistsOnlyLocally  bool
+		ExistsOnlyOnRemote bool
+	}
+	projects := make(map[string]p)
 
-		found := false
-		dir := ""
-		for _, p := range c.Accounts[userName].Projects {
-			if p.ProjectName == project.ProjectName && p.ProjectDir == pwd {
-				// Print the current directory with an arrow
-				fmt.Printf("→")
-				found = true
-				dir = p.ProjectDir
-			} else if p.ProjectName == project.ProjectName {
-				// exists in this account but not in this pc
-				found = true
-				dir = p.ProjectDir
+	for _, project := range apiResp.Projects {
+		projects[project.ProjectName] = p{
+			Icon:               "❌",
+			ProjectURL:         project.URL,
+			ProjectName:        project.ProjectName,
+			ProjectDir:         "",
+			ExistsOnlyLocally:  false,
+			ExistsOnlyOnRemote: true,
+		}
+		for _, rp := range c.Accounts[userName].Projects {
+			if rp.ProjectName == project.ProjectName && rp.ProjectDir == pwd {
+				projects[project.ProjectName] = p{
+					Icon:               "→",
+					ProjectURL:         project.URL,
+					ProjectDir:         rp.ProjectDir,
+					ExistsOnlyLocally:  false,
+					ExistsOnlyOnRemote: false,
+				}
+			} else if rp.ProjectName == project.ProjectName {
+				projects[project.ProjectName] = p{
+					Icon:               "✔",
+					ProjectURL:         project.URL,
+					ProjectName:        project.ProjectName,
+					ProjectDir:         rp.ProjectDir,
+					ExistsOnlyLocally:  false,
+					ExistsOnlyOnRemote: false,
+				}
 			}
 		}
-		if !found {
-			// not found in this account
-			fmt.Printf("❌")
+	}
+	for _, rp := range c.Accounts[userName].Projects {
+		if _, ok := projects[rp.ProjectName]; !ok {
+			projects[rp.ProjectName] = p{
+				Icon:               "❌",
+				ProjectURL:         "",
+				ProjectName:        rp.ProjectName,
+				ProjectDir:         rp.ProjectDir,
+				ExistsOnlyLocally:  true,
+				ExistsOnlyOnRemote: false,
+			}
 		}
-		fmt.Printf("\t%s", project.URL)
+	}
+	// Print the projects
+	for _, project := range projects {
+		fmt.Printf("%s", project.Icon)
+		if project.ExistsOnlyLocally {
+			fmt.Printf("\t%s", "Local only")
+		} else if project.ExistsOnlyOnRemote {
+			fmt.Printf("\t%s", "Remote Only")
+		} else {
+			fmt.Printf("\t\t")
+		}
+		fmt.Printf("\t%s", project.ProjectName)
+		fmt.Printf("\t%s", project.ProjectURL)
 		if printDirs {
-			fmt.Printf("\t%s", dir)
+			fmt.Printf("\t%s", project.ProjectDir)
 		}
 		fmt.Println()
 	}

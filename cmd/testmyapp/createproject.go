@@ -55,7 +55,6 @@ func createProject(username string, c *Config) {
 	response, err := client.Post(serverURL, nil)
 
 	defer response.Body.Close()
-	// Read the response body
 	responseBody, err := io.ReadAll(response.Body)
 	if err != nil {
 		fmt.Println("Error reading response body:", err)
