@@ -96,6 +96,7 @@ func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 				projects[project.ProjectName] = p{
 					Icon:               "→",
 					ProjectURL:         project.URL,
+					ProjectName:        project.ProjectName,
 					ProjectDir:         rp.ProjectDir,
 					ExistsOnlyLocally:  false,
 					ExistsOnlyOnRemote: false,
