@@ -53,6 +53,10 @@ func deleteProject(projectName, userName string, c *Config) error {
 		fmt.Println("Error saving config file:", err)
 		return err
 	}
+	if projectName == "" {
+		fmt.Println("No project found in current directory or not specified with -p flag.")
+		return nil
+	}
 
 	client := NewCustomHTTPClient(apiHost, t, r)
 	serverURL := fmt.Sprintf("%s/v1/users/%s/projects/%s", apiHost, userID, projectName)
