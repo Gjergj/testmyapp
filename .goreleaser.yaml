@@ -83,7 +83,7 @@ winget:
     skip_upload: false
     repository:
       owner: gjergj
-      name: testmyapp
+      name: win-get
       branch: "testmyapp-{{.Version}}"
       pull_request:
         enabled: true
