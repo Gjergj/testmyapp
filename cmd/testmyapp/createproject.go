@@ -13,7 +13,12 @@ import (
 )
 
 // createProjectCommand creates a new project for user
-func createProjectCommand(c *Config) *ffcli.Command {
+func createProjectCommand() *ffcli.Command {
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := flag.NewFlagSet("testmyapp create", flag.ExitOnError)
 
 	username := ""
@@ -25,7 +30,7 @@ func createProjectCommand(c *Config) *ffcli.Command {
 		ShortUsage: "create [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			createProject(username, c)
+			createProject(username, &c)
 			return nil
 		},
 	}

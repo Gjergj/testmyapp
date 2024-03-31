@@ -11,7 +11,11 @@ import (
 )
 
 // loginCommand creates the "login" subcommand
-func loginCommand(cfg *Config) *ffcli.Command {
+func loginCommand() *ffcli.Command {
+	c := &Config{
+		Accounts: make(map[string]Account),
+	}
+
 	fs := flag.NewFlagSet("testmyapp login", flag.ExitOnError)
 	var (
 		loginFlags struct {
@@ -37,7 +41,7 @@ func loginCommand(cfg *Config) *ffcli.Command {
 			}
 			password := string(bytePassword)
 			fmt.Println() // Print a newline after the user presses enter
-			return login(loginFlags.username, password, cfg)
+			return login(loginFlags.username, password, c)
 		},
 	}
 }
@@ -49,6 +53,5 @@ func login(username, password string, cfg *Config) error {
 		return err
 	}
 	cfg.UpdateTokens(username, t, r, userID)
-	fmt.Println(cfg)
 	return nil
 }

@@ -8,10 +8,16 @@ import (
 	"github.com/Gjergj/testmyapp/pkg/models"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"io"
+	"log"
 	"os"
 )
 
-func listProjectCommand(c *Config) *ffcli.Command {
+func listProjectCommand() *ffcli.Command {
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := flag.NewFlagSet("testmyapp list", flag.ExitOnError)
 
 	var username string
@@ -24,7 +30,7 @@ func listProjectCommand(c *Config) *ffcli.Command {
 		ShortUsage: "list [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			getAllProjectsByUserID(username, printDir, c)
+			getAllProjectsByUserID(username, printDir, &c)
 			return nil
 		},
 	}

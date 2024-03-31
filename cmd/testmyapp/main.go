@@ -30,10 +30,7 @@ const configDirName = "testmyapp.io"
 
 func main() {
 	ctx := context.Background()
-	cfg, err := getConfig()
-	if err != nil {
-		log.Fatal(err)
-	}
+
 	var (
 		globalFlags = flag.NewFlagSet("cli", flag.ExitOnError)
 	)
@@ -44,18 +41,18 @@ func main() {
 		ShortUsage: "testmyapp [flags] <subcommand>",
 		FlagSet:    globalFlags,
 		Subcommands: []*ffcli.Command{
-			createProjectCommand(&cfg),
-			loginCommand(&cfg),
-			uploadCommand(&cfg),
-			listProjectCommand(&cfg),
-			watchCommand(&cfg),
-			versionCommand(&cfg),
-			deleteCommand(&cfg),
+			createProjectCommand(),
+			loginCommand(),
+			uploadCommand(),
+			listProjectCommand(),
+			watchCommand(),
+			versionCommand(),
+			deleteCommand(),
 		},
 	}
 
 	// Parse command-line arguments using ff
-	err = root.Parse(os.Args[1:])
+	err := root.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing flags: %v\n", err)
 		os.Exit(1)
@@ -98,7 +95,12 @@ func ensureConfigFile() (string, error) {
 	return configFilePath, nil
 }
 
-func watchCommand(c *Config) *ffcli.Command {
+func watchCommand() *ffcli.Command {
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := flag.NewFlagSet("cli watch", flag.ExitOnError)
 	var projectName, userID string
 	fs.StringVar(&projectName, "p", "", "project name")
@@ -109,7 +111,7 @@ func watchCommand(c *Config) *ffcli.Command {
 		ShortUsage: "watch [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), projectName, userID, c)
+			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), projectName, userID, &c)
 			return nil
 		},
 	}

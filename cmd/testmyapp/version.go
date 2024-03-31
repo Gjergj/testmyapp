@@ -10,7 +10,7 @@ import (
 // set by goreleaser at build time ,https://goreleaser.com/cookbooks/using-main.version/
 var version string
 
-func versionCommand(c *Config) *ffcli.Command {
+func versionCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("testmyapp version", flag.ExitOnError)
 
 	return &ffcli.Command{

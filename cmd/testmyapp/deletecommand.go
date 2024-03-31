@@ -6,10 +6,16 @@ import (
 	"fmt"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"io"
+	"log"
 	"os"
 )
 
-func deleteCommand(c *Config) *ffcli.Command {
+func deleteCommand() *ffcli.Command {
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := flag.NewFlagSet("testmyapp delete", flag.ExitOnError)
 
 	var projectName, userName string
@@ -21,7 +27,7 @@ func deleteCommand(c *Config) *ffcli.Command {
 		ShortUsage: "delete [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			err := deleteProject(projectName, userName, c)
+			err := deleteProject(projectName, userName, &c)
 			if err != nil {
 				return err
 			}

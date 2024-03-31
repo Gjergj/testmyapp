@@ -12,7 +12,12 @@ import (
 	"os"
 )
 
-func uploadCommand(c *Config) *ffcli.Command {
+func uploadCommand() *ffcli.Command {
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fs := flag.NewFlagSet("testmyapp upload", flag.ExitOnError)
 
 	var projectName, userName string
@@ -25,7 +30,7 @@ func uploadCommand(c *Config) *ffcli.Command {
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
 			files := getFiles(uploadDir(uploadAnyDirRecursive))
-			uploadFiles(projectName, userName, files, c)
+			uploadFiles(projectName, userName, files, &c)
 			return nil
 		},
 	}
