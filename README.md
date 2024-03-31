@@ -24,7 +24,24 @@ Create an `index.html` file in the current directory and upload it to the projec
 testmyapp upload
 ```
 
+#### List your projects
+```bash
+testmyapp list
+```
+
+#### Delete a project.
+Will only delete the project from the testmyapp.io server. It will not delete the project directory on your local machine.
+```bash
+testmyapp delete
+```
+Will delete a project that is in the current directory.
+To delete a specific project:
+```bash
+testmyapp delete -p=<project-id>
+```
+
 #### Watch file changes as you develop
+This will watch for changes in the current directory and upload the changes to the server.
 ```bash
 testmyapp watch
 ```
