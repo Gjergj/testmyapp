@@ -82,12 +82,12 @@ winget:
       - tool
     skip_upload: false
     repository:
-      owner: gjergj
-      name: winget
+      owner: microsoft
+      name: winget-pkgs
       pull_request:
         enabled: true
         draft: true
         base:
           owner: microsoft
           name: winget-pkgs
-          branch: master
+          branch: "bump-testmyapp-to-{{.Tag}}"
