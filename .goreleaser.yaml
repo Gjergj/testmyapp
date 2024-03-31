@@ -60,13 +60,13 @@ brews:
 
 winget:
   - name: testmyapp
-    publisher: testmyapp.io
+    publisher: gjergj
     short_description: Quickly test your web app
     license: MIT
     homepage: https://testmyapp.io/
     publisher_url: https://testmyapp.io/
     publisher_support_url: https://github.com/Gjergj/testmyapp/issues
-    package_identifier: testmyapp.testmyapp
+    package_identifier: gjergj.testmyapp
     commit_author:
       name: testmyapp-bot
       email: gjergjiramku@gmail.com
