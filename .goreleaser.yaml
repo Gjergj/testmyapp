@@ -21,6 +21,7 @@ builds:
       - CGO_ENABLED=0
     goos:
       - darwin
+      - windows
 
 archives:
   - format: tar.gz
