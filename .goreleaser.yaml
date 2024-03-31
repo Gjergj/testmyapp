@@ -82,7 +82,7 @@ winget:
       - tool
     skip_upload: false
     repository:
-      owner: microsoft
+      owner: gjergj
       name: winget-pkgs
       pull_request:
         enabled: true
