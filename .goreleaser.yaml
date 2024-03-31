@@ -82,7 +82,13 @@ winget:
       - tool
     skip_upload: false
     repository:
-      owner: microsoft
-      name: winget-pkgs
+      owner: gjergj
+      name: testmyapp
+      branch: "testmyapp-{{.Version}}"
       pull_request:
         enabled: true
+        draft: true
+        base:
+          owner: microsoft
+          name: winget-pkgs
+          branch: master
