@@ -57,3 +57,32 @@ brews:
     commit_author:
       name: testmyapp-bot
       email: gjergjiramku@gmail.com
+
+winget:
+  - name: testmyapp
+    publisher: testmyapp.io
+    short_description: Quickly test your web app
+    license: MIT
+    homepage: https://testmyapp.io/
+    publisher_url: https://testmyapp.io/
+    publisher_support_url: https://github.com/Gjergj/testmyapp/issues
+    package_identifier: testmyapp.testmyapp
+    commit_author:
+      name: testmyapp-bot
+      email: gjergjiramku@gmail.com
+    release_notes: "{{.Changelog}}"
+    tags:
+      - build
+      - build-tool
+      - devops
+      - go
+      - make
+      - makefile
+      - webapp
+      - tool
+    skip_upload: false
+    repository:
+      owner: microsoft
+      name: winget-pkgs
+      pull_request:
+        enabled: true
