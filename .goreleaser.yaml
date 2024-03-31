@@ -82,12 +82,12 @@ winget:
       - tool
     skip_upload: false
     repository:
-      owner: microsoft
-      name: winget-pkgs
+      owner: gjergj
+      name: winget
       pull_request:
         enabled: true
         draft: true
         base:
-          owner: gjergj
-          name: winget
+          owner: microsoft
+          name: winget-pkgs
           branch: master
