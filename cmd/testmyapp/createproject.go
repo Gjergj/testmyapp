@@ -45,6 +45,10 @@ func createProject(username string, c *Config) {
 		log.Println(err)
 		return
 	}
+	if username == "" || userID == "" || t == "" || r == "" {
+		fmt.Println("Please login first")
+		return
+	}
 
 	// check if there's a project for the user in the current directory
 	if _, ok := c.GetProjectID(userID, path); ok {
@@ -58,7 +62,10 @@ func createProject(username string, c *Config) {
 	serverURL := fmt.Sprintf("%s/v1/users/%s/projects", apiHost, userID)
 
 	response, err := client.Post(serverURL, nil)
-
+	if err != nil {
+		fmt.Println("Error creating project:", err)
+		return
+	}
 	defer response.Body.Close()
 	responseBody, err := io.ReadAll(response.Body)
 	if err != nil {

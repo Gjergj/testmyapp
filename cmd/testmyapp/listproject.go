@@ -40,6 +40,10 @@ func listProjectCommand() *ffcli.Command {
 func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 	t, userID, userName := c.Token(username)
 	r, _ := c.RefreshToken(username)
+	if userName == "" || userID == "" || t == "" || r == "" {
+		fmt.Println("Please login first")
+		return
+	}
 	cl := NewCustomHTTPClient(apiHost, t, r)
 
 	// URL to send the GET request to

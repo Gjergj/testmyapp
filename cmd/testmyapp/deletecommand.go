@@ -40,6 +40,9 @@ func deleteProject(projectName, userName string, c *Config) error {
 
 	t, userID, userName := c.Token(userName)
 	r, _ := c.RefreshToken(userName)
+	if userName == "" || userID == "" || t == "" || r == "" {
+		return fmt.Errorf("Please login first")
+	}
 
 	// if project name was not provided, assume we want to delete project in current directory
 	if projectName == "" {
