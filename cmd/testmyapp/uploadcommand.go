@@ -42,6 +42,11 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	t, userID, userName := c.Token(userName)
 	r, _ := c.RefreshToken(userName)
 
+	if userName == "" || userID == "" || t == "" || r == "" {
+		fmt.Println("Please login first")
+		return
+	}
+
 	if projectName == "" {
 		dir, err := os.Getwd()
 		if err != nil {
