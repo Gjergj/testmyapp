@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"golang.org/x/crypto/ssh/terminal"
-	"syscall"
+	"os"
 )
 
 // loginCommand creates the "login" subcommand
@@ -31,7 +31,7 @@ func loginCommand(cfg *Config) *ffcli.Command {
 				return errors.New("username is required")
 			}
 			fmt.Print("Enter Password: ")
-			bytePassword, err := terminal.ReadPassword(syscall.Stdin)
+			bytePassword, err := terminal.ReadPassword(int(os.Stdin.Fd()))
 			if err != nil {
 				return err
 			}
