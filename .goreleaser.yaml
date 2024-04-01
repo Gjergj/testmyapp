@@ -76,18 +76,19 @@ winget:
       - build-tool
       - devops
       - go
-      - make
-      - makefile
       - webapp
       - tool
+      - webhost
+      - web
     skip_upload: false
     repository:
       owner: gjergj
       name: winget-pkgs
+      branch: "{{.ProjectName}}-v{{.Version}}"
       pull_request:
         enabled: true
         draft: true
         base:
           owner: microsoft
           name: winget-pkgs
-          branch: "bump-testmyapp-to-{{.Tag}}"
+          branch: master
