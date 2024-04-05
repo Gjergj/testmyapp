@@ -9,6 +9,11 @@ Still very much a work in progress.
 brew install gjergj/tap/testmyapp
 ```
 
+#### Install on Windows
+```bash
+winget install testmyapp
+```
+
 #### Login
 ```bash
 testmyapp login -u=<username>
