@@ -91,6 +91,7 @@ func ensureConfigFile() (string, error) {
 			fmt.Println("Error creating config file:", err)
 			return "", err
 		}
+		fmt.Println("Created config file:", err)
 	}
 	return configFilePath, nil
 }

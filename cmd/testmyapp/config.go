@@ -14,16 +14,24 @@ func getConfig() (Config, error) {
 	}
 	// Open the config file
 	configFile, err := os.Open(f)
-
 	if err != nil {
 		fmt.Println("Error opening config file:", err)
 		return Config{}, err
 	}
-	defer configFile.Close()
+	defer func(configFile *os.File) {
+		err := configFile.Close()
+		if err != nil {
+			fmt.Println("Error closing config file:", err)
+		}
+	}(configFile)
 	cfg := Config{
 		Accounts: make(map[string]Account),
 	}
-	yaml.NewDecoder(configFile).Decode(&cfg)
+	err = yaml.NewDecoder(configFile).Decode(&cfg)
+	if err != nil {
+		fmt.Println("Error decoding config file:", err)
+		return Config{}, err
+	}
 	return cfg, nil
 }
 
@@ -79,14 +87,17 @@ func (c *Config) UpdateTokens(username string, t string, r string, userID string
 		a.RefreshToken = r
 		a.UserID = userID
 	} else {
-		c.Accounts[username] = Account{
+		a = Account{
 			UserID:       userID,
 			Token:        t,
 			RefreshToken: r,
 		}
 	}
 	c.Accounts[username] = a
-	c.Save()
+	err := c.Save()
+	if err != nil {
+		//fmt.Println("Error saving config file:", err)
+	}
 }
 
 func (c *Config) GetProjectID(userID, directory string) (string, bool) {

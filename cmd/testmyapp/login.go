@@ -7,15 +7,16 @@ import (
 	"fmt"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"golang.org/x/crypto/ssh/terminal"
+	"log"
 	"os"
 )
 
 // loginCommand creates the "login" subcommand
 func loginCommand() *ffcli.Command {
-	c := &Config{
-		Accounts: make(map[string]Account),
+	c, err := getConfig()
+	if err != nil {
+		log.Fatal(err)
 	}
-
 	fs := flag.NewFlagSet("testmyapp login", flag.ExitOnError)
 	var (
 		loginFlags struct {
@@ -41,7 +42,7 @@ func loginCommand() *ffcli.Command {
 			}
 			password := string(bytePassword)
 			fmt.Println() // Print a newline after the user presses enter
-			return login(loginFlags.username, password, c)
+			return login(loginFlags.username, password, &c)
 		},
 	}
 }
