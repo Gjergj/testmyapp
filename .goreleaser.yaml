@@ -50,7 +50,7 @@ brews:
     description: Cli for testmyapp.io
     license: MIT
     homepage: https://github.com/gjergj/testmyapp
-    folder: Formula
+    directory: Formula
     repository:
       owner: Gjergj
       name: homebrew-tap
