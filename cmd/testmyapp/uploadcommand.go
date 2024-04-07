@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 	"slices"
 )
 
@@ -43,6 +44,14 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		fmt.Println("This directory does not contain index.html. An index.html file is required")
 		return
 	}
+	for _, file := range files {
+		ext := filepath.Ext(file)
+		if !models.AllowedFileType(ext) {
+			fmt.Println(fmt.Sprintf("File type %s is not allowed", filepath.Ext(ext)))
+			return
+		}
+	}
+
 	fmt.Println("Uploading files...", files)
 
 	t, userID, userName := c.Token(userName)

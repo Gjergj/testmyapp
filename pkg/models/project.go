@@ -11,3 +11,12 @@ type Project struct {
 	DeletedAt      string `json:"deleted_at,omitempty"`
 	URL            string `json:"url,omitempty"`
 }
+
+func AllowedFileType(fileType string) bool {
+	// use map instead of switch
+	switch fileType {
+	case ".jpeg", ".jpg", ".png", ".gif", ".html", ".css", ".js", ".ico", ".json", ".svg":
+		return true
+	}
+	return false
+}
