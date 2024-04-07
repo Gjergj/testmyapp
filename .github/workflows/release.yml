@@ -3,8 +3,8 @@ name: goreleaser
 on:
   pull_request:
   push:
-#    tags:
-#      - '*' # this will trigger on any tag
+    tags:
+      - '*' # this will trigger on any tag
 
 permissions:
   contents: write
