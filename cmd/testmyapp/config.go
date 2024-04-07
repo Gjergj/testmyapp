@@ -80,7 +80,7 @@ func (c *Config) RemoveProject(username string, projectName string) {
 	c.Accounts[username] = a
 }
 
-func (c *Config) UpdateTokens(username string, t string, r string, userID string) {
+func (c *Config) UpdateTokens(username string, t string, r string, userID string) error {
 	a, ok := c.Accounts[username]
 	if ok {
 		a.Token = t
@@ -96,8 +96,9 @@ func (c *Config) UpdateTokens(username string, t string, r string, userID string
 	c.Accounts[username] = a
 	err := c.Save()
 	if err != nil {
-		//fmt.Println("Error saving config file:", err)
+		return fmt.Errorf("Error saving config file %w", err)
 	}
+	return nil
 }
 
 func (c *Config) GetProjectID(userID, directory string) (string, bool) {

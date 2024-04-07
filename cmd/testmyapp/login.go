@@ -53,6 +53,10 @@ func login(username, password string, cfg *Config) error {
 	if err != nil {
 		return err
 	}
-	cfg.UpdateTokens(username, t, r, userID)
+	err = cfg.UpdateTokens(username, t, r, userID)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Login successful")
 	return nil
 }

@@ -87,7 +87,10 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 
 	// Check if the token has changed
 	if cl.Token != t {
-		c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)
+		err = c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)
+		if err != nil {
+			return
+		}
 	}
 	// Print the response
 	fmt.Println(apiResp.Message)

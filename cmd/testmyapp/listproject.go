@@ -75,7 +75,11 @@ func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 	}
 	// Check if the token has changed
 	if cl.Token != t {
-		c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)
+		err = c.UpdateTokens(userName, cl.Token, cl.RefreshToken, userID)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 	pwd, err := os.Getwd()
 	if err != nil {
