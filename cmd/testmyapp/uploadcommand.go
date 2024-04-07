@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"slices"
 )
 
 func uploadCommand() *ffcli.Command {
@@ -37,6 +38,11 @@ func uploadCommand() *ffcli.Command {
 }
 
 func uploadFiles(projectName, userName string, files []string, c *Config) {
+	// check if there is index.html file
+	if !slices.Contains(files, "index.html") {
+		fmt.Println("This directory does not contain index.html. An index.html file is required")
+		return
+	}
 	fmt.Println("Uploading files...", files)
 
 	t, userID, userName := c.Token(userName)
