@@ -11,7 +11,10 @@ build:
 
 patch_release:
 	$(eval VERSION=$(shell git describe --tags --abbrev=0 | awk -F. '{OFS="."; $$NF+=1; print $0}'))
-	@echo "New version: $(VERSION)"
 	git tag -a $(VERSION) -m $(VERSION)
 	git push origin $(VERSION)
 
+minor_release:
+	$(eval VERSION=$(shell git describe --tags --abbrev=0 | awk -F. '{OFS="."; $$(NF-1)+=1; $$NF=0; print $0}'	))
+	git tag -a $(VERSION) -m $(VERSION)
+	git push origin $(VERSION)
