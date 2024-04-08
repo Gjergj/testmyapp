@@ -44,12 +44,38 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		fmt.Println("This directory does not contain index.html. An index.html file is required")
 		return
 	}
+	if len(files) > models.MaxUploadFiles {
+		fmt.Println(fmt.Sprintf("Maximum number of files allowed is %d", models.MaxUploadFiles))
+		return
+	}
+
+	totalSize := 0
 	for _, file := range files {
 		ext := filepath.Ext(file)
 		if !models.AllowedFileType(ext) {
 			fmt.Println(fmt.Sprintf("File type %s is not allowed", filepath.Ext(ext)))
 			return
 		}
+
+		fileInfo, err := os.Stat(file)
+		if err != nil {
+			fmt.Println("Error getting file info:", err)
+			return
+		}
+		if fileInfo.Size() > models.MaxFileSizeLimit {
+			fmt.Println(fmt.Sprintf("File size %d exceeds the limit of %d", fileInfo.Size(), models.MaxFileSizeLimit))
+			return
+		}
+		totalSize += int(fileInfo.Size())
+		// check if the file name is too long
+		if len(fileInfo.Name()) > models.MaxFileNameLength {
+			fmt.Println(fmt.Sprintf("File name %s is too long", fileInfo.Name()))
+			return
+		}
+	}
+	if totalSize > models.MaxUploadSize {
+		fmt.Println(fmt.Sprintf("Total size of files %d exceeds the limit of %d", totalSize, models.MaxUploadSize))
+		return
 	}
 
 	fmt.Println("Uploading files...", files)

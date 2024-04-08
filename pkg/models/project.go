@@ -1,5 +1,13 @@
 package models
 
+const (
+	MaxUploadFiles     = 35
+	MaxFileSizeLimit   = 1 << 20 // 1 MB limit for one file
+	MaxFileNameLength  = 255
+	MaxUploadSize      = 1 << 20 // 1 MB limit for the entire request
+	MaxProjectsPerUser = 5
+)
+
 type Project struct {
 	ID             string `json:"id,omitempty"`
 	UserID         string `json:"user_id,omitempty"`
