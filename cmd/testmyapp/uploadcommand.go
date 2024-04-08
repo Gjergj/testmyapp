@@ -53,7 +53,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	for _, file := range files {
 		ext := filepath.Ext(file)
 		if !models.AllowedFileType(ext) {
-			fmt.Println(fmt.Sprintf("File type %s is not allowed", filepath.Ext(ext)))
+			fmt.Println(fmt.Sprintf("File type %s is not allowed", ext))
 			return
 		}
 
@@ -63,7 +63,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 			return
 		}
 		if fileInfo.Size() > models.MaxFileSizeLimit {
-			fmt.Println(fmt.Sprintf("File size %d exceeds the limit of %d", fileInfo.Size(), models.MaxFileSizeLimit))
+			fmt.Println(fmt.Sprintf("%s file size %d exceeds the limit of %d", fileInfo.Name(), fileInfo.Size(), models.MaxFileSizeLimit))
 			return
 		}
 		totalSize += int(fileInfo.Size())
