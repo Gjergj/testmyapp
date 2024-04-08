@@ -4,16 +4,18 @@ Still very much a work in progress.
 
 ## Getting started
 
-#### Install on macOS
+### Installation
+#### macOS
 ```bash
 brew install gjergj/tap/testmyapp
 ```
 
-#### Install on Windows
+#### Windows
 ```bash
 winget install testmyapp
 ```
 
+### Commands
 #### Login
 ```bash
 testmyapp login -u=<username>
@@ -35,7 +37,7 @@ testmyapp list
 ```
 
 #### Delete a project.
-Will only delete the project from the testmyapp.io server. It will not delete the project directory on your local machine.
+Will only delete the project from the testmyapp.io server. It will not delete anything machine.
 ```bash
 testmyapp delete
 ```
@@ -54,5 +56,6 @@ Refresh browser to see changes.
 
 ### Update
 ```bash
+brew update
 brew upgrade testmyapp
 ```
