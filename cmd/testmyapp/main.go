@@ -190,6 +190,7 @@ func getFiles(dir string) []string {
 	var files []string
 
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+		fmt.Println("path:", path, "dir:", d, "err:", err)
 		if !d.IsDir() {
 			i, err := d.Info()
 			if err != nil {
@@ -215,5 +216,6 @@ func getFiles(dir string) []string {
 		fmt.Println("Error getting files:", err)
 		return nil
 	}
+	fmt.Println("files:", files)
 	return files
 }
