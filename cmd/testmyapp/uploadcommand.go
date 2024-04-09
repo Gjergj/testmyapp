@@ -45,11 +45,12 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 
 	totalSize := 0
 	foundIndex := false
-	for _, file := range files {
+	filesToUpload := make([]string, 0)
+	for i, file := range files {
 		ext := filepath.Ext(file)
 		if !models.AllowedFileType(ext) {
-			fmt.Println(fmt.Sprintf("File type %s is not allowed on file %s", ext, file))
-			return
+			fmt.Println(fmt.Sprintf("File type %s is not allowed on file %s. Will not be uploaded.", ext, file))
+			continue
 		}
 
 		fileInfo, err := os.Stat(file)
@@ -59,19 +60,21 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		}
 		fileName := fileInfo.Name()
 		if fileInfo.Size() > models.MaxFileSizeLimit {
-			fmt.Println(fmt.Sprintf("%s file size %d exceeds the limit of %d", fileName, fileInfo.Size(), models.MaxFileSizeLimit))
-			return
+			fmt.Println(fmt.Sprintf("%s file size %d exceeds the limit of %d. Will not be uploaded", fileName, fileInfo.Size(), models.MaxFileSizeLimit))
+			continue
 		}
 		totalSize += int(fileInfo.Size())
 		// check if the file name is too long
 		if len(fileName) > models.MaxFileNameLength {
-			fmt.Println(fmt.Sprintf("File name %s is too long. Allowed file name length is %d", fileName, models.MaxFileNameLength))
-			return
+			fmt.Println(fmt.Sprintf("File name %s is too long. Allowed file name length is %d. Will not be uploaded.", fileName, models.MaxFileNameLength))
+			continue
 		}
 		if fileInfo.Name() == "index.html" {
 			foundIndex = true
 		}
+		filesToUpload = append(filesToUpload, files[i])
 	}
+
 	if !foundIndex {
 		fmt.Println("This directory does not contain index.html. An index.html file is required")
 		return
@@ -81,7 +84,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		return
 	}
 
-	fmt.Println("Uploading files...", files)
+	fmt.Println("Uploading files...", filesToUpload)
 
 	t, userID, userName := c.Token(userName)
 	r, _ := c.RefreshToken(userName)
@@ -108,7 +111,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	cl := NewCustomHTTPClient(apiHost, t, r)
 
 	// Make the POST request
-	response, err := cl.Upload(serverURL, files)
+	response, err := cl.Upload(serverURL, filesToUpload)
 	if err != nil {
 		fmt.Println("Error making POST request:", err)
 		return
