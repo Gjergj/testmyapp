@@ -141,4 +141,6 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	}
 	// Print the response
 	fmt.Println(apiResp.Message)
+	fmt.Println("Refresh the page to see the changes.")
+	fmt.Println("Try 'testmyapp watch' it will detect changes and automatically upload files.")
 }

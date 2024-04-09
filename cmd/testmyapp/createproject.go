@@ -93,4 +93,6 @@ func createProject(username string, c *Config) {
 
 	// Print the response
 	fmt.Println("New Project:", apiResp.Message)
+	fmt.Println("To upload files to this project, run 'testmyapp upload'")
+	fmt.Println("The directory must contain at least index.html file.")
 }
