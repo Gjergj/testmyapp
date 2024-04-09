@@ -204,7 +204,7 @@ func getFiles(dir string) []string {
 				fmt.Printf("Warning: skipping file %s file size is 0\n", d.Name())
 				return nil
 			}
-			path = strings.ReplaceAll(path, dir+"/", "")
+			path = strings.ReplaceAll(path, dir+string(filepath.Separator), "")
 			files = append(files, path)
 		}
 		return nil
