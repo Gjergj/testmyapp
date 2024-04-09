@@ -23,7 +23,7 @@ type Project struct {
 func AllowedFileType(fileType string) bool {
 	// use map instead of switch
 	switch fileType {
-	case ".jpeg", ".jpg", ".png", ".gif", ".html", ".css", ".js", ".ico", ".json", ".svg":
+	case ".jpeg", ".jpg", ".png", ".gif", ".html", ".htm", ".css", ".js", ".ico", ".json", ".svg":
 		return true
 	}
 	return false

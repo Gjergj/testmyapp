@@ -48,7 +48,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	for _, file := range files {
 		ext := filepath.Ext(file)
 		if !models.AllowedFileType(ext) {
-			fmt.Println(fmt.Sprintf("File type %s is not allowed", ext))
+			fmt.Println(fmt.Sprintf("File type %s is not allowed on file %s", ext, file))
 			return
 		}
 

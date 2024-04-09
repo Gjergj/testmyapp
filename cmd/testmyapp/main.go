@@ -171,7 +171,6 @@ func uploadDir(uploadType uploadDirType) string {
 			if err != nil {
 				fmt.Println("Error getting working directory:", err)
 			}
-			//watchDir = filepath.Join(watchDir, "...")
 		}
 	case uploadDirWatchCurrent:
 		watchDir = "."
