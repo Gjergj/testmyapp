@@ -193,15 +193,15 @@ func getFiles(dir string) []string {
 		if !d.IsDir() {
 			i, err := d.Info()
 			if err != nil {
-				// skip this file
+				fmt.Printf("Warning: skipping file %s error getting file info: %s\n", d.Name(), err.Error())
 				return nil
 			}
 			if i.Mode()&os.ModeSymlink != 0 {
-				// skip this file
+				fmt.Printf("Warning: skipping file %s it's a symling\n", d.Name())
 				return nil
 			}
 			if i.Size() == 0 {
-				// skip this file
+				fmt.Printf("Warning: skipping file %s file size is 0\n", d.Name())
 				return nil
 			}
 			path = strings.ReplaceAll(path, dir+"/", "")
