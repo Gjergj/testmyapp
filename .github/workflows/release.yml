@@ -8,25 +8,51 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
-  goreleaser:
+  goreleaser-linux:
+    name: goreleaser-linux
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Fetch all tags
+        run: git fetch --force --tags
+      - name: Set up Go
         uses: actions/setup-go@v4
-      -
-        name: Run GoReleaser
+        with:
+          go-version: 'stable'
+      - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean
+          args: release --clean --config .goreleaser.yaml
         env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  goreleaser-windows:
+    name: goreleaser-windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch all tags
+        run: git fetch --force --tags
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 'stable'
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean --config .goreleaser-windows.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTH_GITHUB: ${{ secrets.CHOCOKEY }}
