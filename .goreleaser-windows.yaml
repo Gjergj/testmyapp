@@ -71,7 +71,7 @@ chocolateys:
     url_template: "https://github.com/gjergj/testmyapp/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     # Your app's project url.
     # It is a required field.
-    project_url: testmyapp.io
+    project_url: https://testmyapp.io
 
     # Your app's copyright details.
     copyright: 2024 Gjergj Ramku
