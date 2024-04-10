@@ -68,7 +68,7 @@ chocolateys:
 
     # Your app's authors (probably you).
     authors: Gjergj Ramku
-
+    url_template: "https://github.com/gjergj/testmyapp/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     # Your app's project url.
     # It is a required field.
     project_url: testmyapp.io
