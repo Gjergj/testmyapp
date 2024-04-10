@@ -34,7 +34,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
   goreleaser-windows:
-    if: false
     name: goreleaser-windows
     runs-on: windows-latest
     steps:
@@ -56,4 +55,4 @@ jobs:
           args: release --clean --config .goreleaser-windows.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
-          AUTH_GITHUB: ${{ secrets.CHOCOKEY }}
+          CHOCOKEY: ${{ secrets.CHOCOKEY }}
