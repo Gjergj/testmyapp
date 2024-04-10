@@ -76,13 +76,13 @@ winget:
       - tool
       - webhost
       - web
-    skip_upload: true
+    skip_upload: false
     repository:
       owner: gjergj
       name: winget-pkgs
       branch: "{{.ProjectName}}-v{{.Version}}"
       pull_request:
-        enabled: false
+        enabled: true
         draft: true
         base:
           owner: microsoft
