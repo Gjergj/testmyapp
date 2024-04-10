@@ -12,7 +12,6 @@ builds:
     env:
       - CGO_ENABLED=0
     goos:
-      - darwin
       - windows
     goarch:
       - amd64
@@ -94,10 +93,10 @@ chocolateys:
     bug_tracker_url: https://github.com/Gjergj/testmyapp/issues
 
     # Your app's tag list.
-    tags: "foo bar baz"
+    tags: "webhosting host webapp web tool devops build build-tool go"
 
     # Your app's summary:
-    summary: Easily test your web app
+    summary: Easily host and test your web app
 
     # This the description of your chocolatey package.
     # Supports markdown.
