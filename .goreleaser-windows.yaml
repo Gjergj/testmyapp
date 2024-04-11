@@ -40,29 +40,29 @@ changelog:
       - "^test:"
 
 chocolateys:
-    name: testmyapp
-    package_source_url: https://github.com/gjergj/chocolatey-package
-    owners: Gjergj Ramku
-    title: testmyapp
-    authors: Gjergj Ramku
-    url_template: "https://github.com/gjergj/testmyapp/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    project_url: https://testmyapp.io
-    copyright: 2024 Gjergj Ramku
-    license_url: https://github.com/Gjergj/testmyapp/blob/main/LICENSE
-    require_license_acceptance: false
-    project_source_url: https://github.com/Gjergj/testmyapp  v
-    docs_url: https://github.com/Gjergj/testmyapp/blob/main/README.md
-    bug_tracker_url: https://github.com/Gjergj/testmyapp/issues
-    tags: "webhosting host webapp web tool devops build build-tool go"
-    summary: Easily host and test your web app
-    description: |
-      {{ .ProjectName }} installer package.
-      Software to create fast and easy drum rolls.
-    release_notes: "https://github.com/Gjergj/testmyapp/releases"
-    api_key: "{{ .Env.CHOCOKEY }}"
-    source_repo: "https://push.chocolatey.org/"
-    skip_publish: true
-    goamd64: v1
+  name: testmyapp
+  package_source_url: https://github.com/gjergj/chocolatey-package
+  owners: Gjergj Ramku
+  title: testmyapp
+  authors: Gjergj Ramku
+  url_template: "https://github.com/gjergj/testmyapp/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+  project_url: https://testmyapp.io
+  copyright: 2024 Gjergj Ramku
+  license_url: https://github.com/Gjergj/testmyapp/blob/main/LICENSE
+  require_license_acceptance: false
+  project_source_url: https://github.com/Gjergj/testmyapp  v
+  docs_url: https://github.com/Gjergj/testmyapp/blob/main/README.md
+  bug_tracker_url: https://github.com/Gjergj/testmyapp/issues
+  tags: "webhosting host webapp web tool devops build build-tool go"
+  summary: Easily host and test your web app
+  description: |
+    {{ .ProjectName }} installer package.
+    Software to create fast and easy drum rolls.
+  release_notes: "https://github.com/Gjergj/testmyapp/releases"
+  api_key: "{{ .Env.CHOCOKEY }}"
+  source_repo: "https://push.chocolatey.org/"
+  skip_publish: true
+  goamd64: v1
 
 
 winget:
