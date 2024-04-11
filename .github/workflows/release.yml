@@ -12,7 +12,6 @@ permissions:
 
 jobs:
   goreleaser-linux:
-    if: false
     name: goreleaser-linux
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
   goreleaser-windows:
+    if: false
     name: goreleaser-windows
     runs-on: windows-latest
     steps:
@@ -53,7 +53,7 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --verbose --clean --config .goreleaser-windows.yaml
+          args: release --clean --config .goreleaser-windows.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
           CHOCOKEY: ${{ secrets.CHOCOKEY }}
