@@ -15,7 +15,6 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm
       - arm64
 
 snapshot:
@@ -40,92 +39,63 @@ changelog:
       - "^docs:"
       - "^test:"
 
-release:
-  disable: true # Linux runner will publish the release (including the windows binaries)
-
 chocolateys:
-  - # Your app's package name.
-    # The value may not contain spaces or character that are not valid for a URL.
-    # If you want a good separator for words, use '-', not  '.'.
-    #
-    # Default: ProjectName
     name: testmyapp
-
-    # Your chocolatey package's source URL.
-    # It point at the location of where someone can find the packaging files for the package.
     package_source_url: https://github.com/gjergj/chocolatey-package
-
-    # Your app's owner.
-    # It basically means you.
     owners: Gjergj Ramku
-
-    # The app's title.
-    # A human-friendly title of the package.
-    #
-    # Default: ProjectName
     title: testmyapp
-
-    # Your app's authors (probably you).
     authors: Gjergj Ramku
     url_template: "https://github.com/gjergj/testmyapp/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    # Your app's project url.
-    # It is a required field.
     project_url: https://testmyapp.io
-
-    # Your app's copyright details.
     copyright: 2024 Gjergj Ramku
-
-    # App's license information url.
     license_url: https://github.com/Gjergj/testmyapp/blob/main/LICENSE
-
-    # Your apps's require license acceptance:
-    # Specify whether the client must prompt the consumer to accept the package
-    # license before installing.
     require_license_acceptance: false
-
-    # Your app's source url.
-    project_source_url: https://github.com/Gjergj/testmyapp
-
-    # Your app's documentation url.
+    project_source_url: https://github.com/Gjergj/testmyapp  v
     docs_url: https://github.com/Gjergj/testmyapp/blob/main/README.md
-
-    # App's bugtracker url.
     bug_tracker_url: https://github.com/Gjergj/testmyapp/issues
-
-    # Your app's tag list.
     tags: "webhosting host webapp web tool devops build build-tool go"
-
-    # Your app's summary:
     summary: Easily host and test your web app
-
-    # This the description of your chocolatey package.
-    # Supports markdown.
     description: |
       {{ .ProjectName }} installer package.
       Software to create fast and easy drum rolls.
-
-    # Your app's release notes.
-    # A description of the changes made in this release of the package.
-    # Supports markdown. To prevent the need to continually update this field,
-    # providing a URL to an external list of Release Notes is perfectly
-    # acceptable.
     release_notes: "https://github.com/Gjergj/testmyapp/releases"
-
-    # The api key that should be used to push to the chocolatey repository.
-    #
-    # WARNING: do not expose your api key in the configuration file!
     api_key: "{{ .Env.CHOCOKEY }}"
-
-    # The source repository that will push the package to.
     source_repo: "https://push.chocolatey.org/"
-
-    # Setting this will prevent goreleaser to actually try to push the package
-    # to chocolatey repository, leaving the responsibility of publishing it to
-    # the user.
-    skip_publish: false
-
-    # GOAMD64 to specify which amd64 version to use if there are multiple
-    # versions from the build section.
-    #
-    # Default: 'v1'
+    skip_publish: true
     goamd64: v1
+
+
+    winget:
+      - name: testmyapp
+        publisher: gjergj
+        short_description: Quickly test your web app
+        license: MIT
+        homepage: https://testmyapp.io/
+        publisher_url: https://testmyapp.io/
+        publisher_support_url: https://github.com/Gjergj/testmyapp/issues
+        package_identifier: gjergj.testmyapp
+        commit_author:
+          name: testmyapp-bot
+          email: gjergjiramku@gmail.com
+        release_notes: "{{.Changelog}}"
+        tags:
+          - build
+          - build-tool
+          - devops
+          - go
+          - webapp
+          - tool
+          - webhost
+          - web
+        skip_upload: false
+        repository:
+          owner: gjergj
+          name: winget-pkgs
+          branch: "{{.ProjectName}}-v{{.Version}}"
+          pull_request:
+            enabled: false
+            draft: true
+            base:
+              owner: microsoft
+              name: winget-pkgs
+              branch: master
