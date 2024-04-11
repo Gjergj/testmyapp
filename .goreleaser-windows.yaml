@@ -111,11 +111,6 @@ chocolateys:
     # acceptable.
     release_notes: "https://github.com/Gjergj/testmyapp/releases"
 
-    # App's dependencies
-    # The version is not required.
-    dependencies:
-      - id: nfpm
-
     # The api key that should be used to push to the chocolatey repository.
     #
     # WARNING: do not expose your api key in the configuration file!

@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   goreleaser-linux:
+    if: false
     name: goreleaser-linux
     runs-on: ubuntu-latest
     steps:
