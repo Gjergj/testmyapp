@@ -112,6 +112,7 @@ func watchCommand() *ffcli.Command {
 		ShortUsage: "watch [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			createProject(userID, &c)
 			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), projectName, userID, &c)
 			return nil
 		},

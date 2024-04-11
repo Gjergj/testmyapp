@@ -30,6 +30,7 @@ func uploadCommand() *ffcli.Command {
 		ShortUsage: "upload [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			createProject(userName, &c)
 			files := getFiles(uploadDir(uploadAnyDirRecursive))
 			uploadFiles(projectName, userName, files, &c)
 			return nil
@@ -141,6 +142,7 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 	}
 	// Print the response
 	fmt.Println(apiResp.Message)
+	fmt.Println()
 	fmt.Println("Refresh the page to see the changes.")
 	fmt.Println("Try 'testmyapp watch' it will detect changes and automatically upload files.")
 }

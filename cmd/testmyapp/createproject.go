@@ -14,11 +14,6 @@ import (
 
 // createProjectCommand creates a new project for user
 func createProjectCommand() *ffcli.Command {
-	c, err := getConfig()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	fs := flag.NewFlagSet("testmyapp create", flag.ExitOnError)
 
 	username := ""
@@ -30,7 +25,7 @@ func createProjectCommand() *ffcli.Command {
 		ShortUsage: "create [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
-			createProject(username, &c)
+			fmt.Println("This command is deprecated. Please use 'testmyapp upload' instead.")
 			return nil
 		},
 	}
@@ -52,9 +47,6 @@ func createProject(username string, c *Config) {
 
 	// check if there's a project for the user in the current directory
 	if _, ok := c.GetProjectID(userID, path); ok {
-		fmt.Println("Project already exists in this directory")
-		fmt.Println("Try running the 'testmyapp list' command to see all your projects")
-		fmt.Println("Run 'testmyapp delete' to delete the project in this directory")
 		return
 	}
 
@@ -92,7 +84,8 @@ func createProject(username string, c *Config) {
 	}
 
 	// Print the response
-	fmt.Println("New Project:", apiResp.Message)
+	fmt.Println("New Project created:", apiResp.Message)
+	fmt.Println()
 	fmt.Println("To upload files to this project, run 'testmyapp upload'")
 	fmt.Println("The directory must contain at least index.html file.")
 }
