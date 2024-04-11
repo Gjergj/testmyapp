@@ -21,8 +21,7 @@ func uploadCommand() *ffcli.Command {
 
 	fs := flag.NewFlagSet("testmyapp upload", flag.ExitOnError)
 
-	var projectName, userName string
-	fs.StringVar(&projectName, "p", "", "project name")
+	var userName string
 	fs.StringVar(&userName, "u", "", "user name")
 
 	return &ffcli.Command{
@@ -32,13 +31,13 @@ func uploadCommand() *ffcli.Command {
 		Exec: func(_ context.Context, args []string) error {
 			createProject(userName, &c)
 			files := getFiles(uploadDir(uploadAnyDirRecursive))
-			uploadFiles(projectName, userName, files, &c)
+			uploadFiles(userName, files, &c)
 			return nil
 		},
 	}
 }
 
-func uploadFiles(projectName, userName string, files []string, c *Config) {
+func uploadFiles(userName string, files []string, c *Config) {
 	if len(files) > models.MaxUploadFiles {
 		fmt.Println(fmt.Sprintf("Maximum number of files allowed is %d", models.MaxUploadFiles))
 		return
@@ -95,16 +94,15 @@ func uploadFiles(projectName, userName string, files []string, c *Config) {
 		return
 	}
 
-	if projectName == "" {
-		dir, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err)
-		}
-		var ok bool
-		if projectName, ok = c.GetProjectID(userID, dir); !ok {
-			fmt.Println("could not find project for current directory")
-			return
-		}
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var ok bool
+	var projectName string
+	if projectName, ok = c.GetProjectID(userID, dir); !ok {
+		fmt.Println("could not find project for current directory")
+		return
 	}
 
 	serverURL := fmt.Sprintf("%s/v1/users/%s/projects/%s", apiHost, userID, projectName)

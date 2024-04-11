@@ -113,13 +113,13 @@ func watchCommand() *ffcli.Command {
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
 			createProject(userID, &c)
-			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), projectName, userID, &c)
+			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), userID, &c)
 			return nil
 		},
 	}
 }
 
-func watchFiles(dir, projectName, userID string, cfg *Config) {
+func watchFiles(dir, userID string, cfg *Config) {
 	// Make the channel buffered to ensure no event is dropped. Notify will drop
 	// an event if the receiver is not able to keep up the sending pace.
 	c := make(chan notify.EventInfo, 1)
@@ -142,7 +142,7 @@ func watchFiles(dir, projectName, userID string, cfg *Config) {
 				//log.Println("Got event:", ei)
 				time.Sleep(200 * time.Millisecond)
 				files := getFiles(dir)
-				uploadFiles(projectName, userID, files, cfg)
+				uploadFiles(userID, files, cfg)
 			}
 		}
 	}()
