@@ -30,7 +30,7 @@ func uploadCommand() *ffcli.Command {
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
 			createProject(userName, &c)
-			files := getFiles(uploadDir(uploadAnyDirRecursive))
+			files := getFiles(uploadDir())
 			uploadFiles(userName, files, &c)
 			return nil
 		},

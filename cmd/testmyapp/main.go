@@ -103,8 +103,7 @@ func watchCommand() *ffcli.Command {
 	}
 
 	fs := flag.NewFlagSet("cli watch", flag.ExitOnError)
-	var projectName, userID string
-	fs.StringVar(&projectName, "p", "", "project name")
+	var userID string
 	fs.StringVar(&userID, "u", "", "user name")
 
 	return &ffcli.Command{
@@ -113,7 +112,7 @@ func watchCommand() *ffcli.Command {
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
 			createProject(userID, &c)
-			watchFiles(uploadDir(uploadDirWatchCurrentRecursive), userID, &c)
+			watchFiles("./...", userID, &c)
 			return nil
 		},
 	}
@@ -155,28 +154,15 @@ func watchFiles(dir, userID string, cfg *Config) {
 
 type uploadDirType int
 
-const (
-	uploadAnyDirRecursive uploadDirType = iota
-	uploadDirWatchCurrent
-	uploadDirWatchCurrentRecursive
-)
-
-func uploadDir(uploadType uploadDirType) string {
+func uploadDir() string {
 	var watchDir string
-	switch uploadType {
-	case uploadAnyDirRecursive:
-		watchDir = os.Getenv("UPLOAD_DIR")
-		if watchDir == "" {
-			var err error
-			watchDir, err = os.Getwd()
-			if err != nil {
-				fmt.Println("Error getting working directory:", err)
-			}
+	watchDir = os.Getenv("UPLOAD_DIR")
+	if watchDir == "" {
+		var err error
+		watchDir, err = os.Getwd()
+		if err != nil {
+			fmt.Println("Error getting working directory:", err)
 		}
-	case uploadDirWatchCurrent:
-		watchDir = "."
-	case uploadDirWatchCurrentRecursive:
-		watchDir = "./..."
 	}
 	return watchDir
 }

@@ -21,11 +21,7 @@ winget install testmyapp
 testmyapp login -u=<username>
 ```
 
-#### Create new project
-This will create a new project and return the project URL. When visiting the URL you will see a 'Hello World' website.
-```bash
-testmyapp create
-```
+#### Upload your web site
 Create an `index.html` file in the current directory and upload it to the project.
 ```bash
 testmyapp upload
