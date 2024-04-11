@@ -78,7 +78,6 @@ func ensureConfigFile() (string, error) {
 
 	//check if config file exists
 	if _, err = os.Stat(configFilePath); os.IsNotExist(err) {
-		fmt.Println("Config file does not exist")
 		// Create the config directory
 		err = os.MkdirAll(filepath.Join(configDir, configDirName), 0755)
 		if err != nil {
@@ -91,7 +90,6 @@ func ensureConfigFile() (string, error) {
 			fmt.Println("Error creating config file:", err)
 			return "", err
 		}
-		fmt.Println("Created config file:", err)
 	}
 	return configFilePath, nil
 }
@@ -111,6 +109,10 @@ func watchCommand() *ffcli.Command {
 		ShortUsage: "watch [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			if c.IsEmpty() {
+				fmt.Println("Please login first")
+				return nil
+			}
 			createProject(userID, &c)
 			watchFiles("./...", userID, &c)
 			return nil

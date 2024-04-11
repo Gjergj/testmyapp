@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"gopkg.in/yaml.v2"
+	"io"
 	"os"
 )
 
@@ -29,8 +31,12 @@ func getConfig() (Config, error) {
 	}
 	err = yaml.NewDecoder(configFile).Decode(&cfg)
 	if err != nil {
+		// if error is io.EOF return empty config
+		if errors.Is(err, io.EOF) {
+			return cfg, nil
+		}
 		fmt.Println("Error decoding config file:", err)
-		return Config{}, err
+		return cfg, err
 	}
 	return cfg, nil
 }
@@ -57,6 +63,10 @@ func (c *Config) Save() error {
 
 type Config struct {
 	Accounts map[string]Account `yaml:"accounts"`
+}
+
+func (c *Config) IsEmpty() bool {
+	return len(c.Accounts) == 0
 }
 
 type Account struct {

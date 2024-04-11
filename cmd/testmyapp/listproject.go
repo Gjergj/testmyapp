@@ -30,6 +30,10 @@ func listProjectCommand() *ffcli.Command {
 		ShortUsage: "list [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			if c.IsEmpty() {
+				fmt.Println("Please login first")
+				return nil
+			}
 			getAllProjectsByUserID(username, printDir, &c)
 			return nil
 		},

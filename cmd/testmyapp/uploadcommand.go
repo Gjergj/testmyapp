@@ -29,6 +29,10 @@ func uploadCommand() *ffcli.Command {
 		ShortUsage: "upload [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			if c.IsEmpty() {
+				fmt.Println("Please login first")
+				return nil
+			}
 			createProject(userName, &c)
 			files := getFiles(uploadDir())
 			uploadFiles(userName, files, &c)

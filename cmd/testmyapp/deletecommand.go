@@ -27,6 +27,10 @@ func deleteCommand() *ffcli.Command {
 		ShortUsage: "delete [flags]",
 		FlagSet:    fs,
 		Exec: func(_ context.Context, args []string) error {
+			if c.IsEmpty() {
+				fmt.Println("Please login first")
+				return nil
+			}
 			err := deleteProject(projectName, userName, &c)
 			if err != nil {
 				return err
