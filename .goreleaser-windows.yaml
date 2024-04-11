@@ -65,37 +65,37 @@ chocolateys:
     goamd64: v1
 
 
-    winget:
-      - name: testmyapp
-        publisher: gjergj
-        short_description: Quickly test your web app
-        license: MIT
-        homepage: https://testmyapp.io/
-        publisher_url: https://testmyapp.io/
-        publisher_support_url: https://github.com/Gjergj/testmyapp/issues
-        package_identifier: gjergj.testmyapp
-        commit_author:
-          name: testmyapp-bot
-          email: gjergjiramku@gmail.com
-        release_notes: "{{.Changelog}}"
-        tags:
-          - build
-          - build-tool
-          - devops
-          - go
-          - webapp
-          - tool
-          - webhost
-          - web
-        skip_upload: false
-        repository:
-          owner: gjergj
+winget:
+  - name: testmyapp
+    publisher: gjergj
+    short_description: Quickly test your web app
+    license: MIT
+    homepage: https://testmyapp.io/
+    publisher_url: https://testmyapp.io/
+    publisher_support_url: https://github.com/Gjergj/testmyapp/issues
+    package_identifier: gjergj.testmyapp
+    commit_author:
+      name: testmyapp-bot
+      email: gjergjiramku@gmail.com
+    release_notes: "{{.Changelog}}"
+    tags:
+      - build
+      - build-tool
+      - devops
+      - go
+      - webapp
+      - tool
+      - webhost
+      - web
+    skip_upload: false
+    repository:
+      owner: gjergj
+      name: winget-pkgs
+      branch: "{{.ProjectName}}-v{{.Version}}"
+      pull_request:
+        enabled: false
+        draft: true
+        base:
+          owner: microsoft
           name: winget-pkgs
-          branch: "{{.ProjectName}}-v{{.Version}}"
-          pull_request:
-            enabled: false
-            draft: true
-            base:
-              owner: microsoft
-              name: winget-pkgs
-              branch: master
+          branch: master
