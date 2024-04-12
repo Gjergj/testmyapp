@@ -58,7 +58,7 @@ func login(username, password string, cfg *Config) error {
 		return err
 	}
 	fmt.Println("Login successful")
-	fmt.Println("Now go to a directory with your static site in it and run 'testmyapp create' to get a URL to view your site.")
-	fmt.Println("The directory must contain an index.html file.")
+	fmt.Println()
+	fmt.Println("Now go to a directory with your static site in it and run 'testmyapp upload' to get a URL to view your site.")
 	return nil
 }

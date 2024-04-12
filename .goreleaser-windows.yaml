@@ -44,7 +44,7 @@ chocolateys:
   - # Your app's package name.
     name: testmyapp
 
-    package_source_url: https://github.com/gjergj/chocolatey-package
+    package_source_url: https://github.com/Gjergj/testmyapp
 
     owners: Gjergj Ramku
 
