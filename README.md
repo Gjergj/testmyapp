@@ -14,6 +14,18 @@ brew install gjergj/tap/testmyapp
 ```bash
 winget install testmyapp
 ```
+```bash
+choco install testmyapp
+```
+#### Linux
+Locate the latest release from the [releases page](https://github.com/Gjergj/testmyapp/releases) and download the appropriate package for your system.
+
+Ubuntu example:
+```bash
+wget https://github.com/Gjergj/testmyapp/releases/download/v0.0.68/testmyapp_0.0.68_amd64.deb
+sudo dpkg -i testmyapp_0.0.68_amd64.deb
+```
+
 
 ### Commands
 #### Login
