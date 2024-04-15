@@ -14,9 +14,9 @@ builds:
     goos:
       - darwin
       - linux
+      - windows
     goarch:
       - amd64
-      - arm
       - arm64
 
 archives:
@@ -29,6 +29,11 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
 
 changelog:
   sort: asc
@@ -53,53 +58,22 @@ brews:
 
 # .goreleaser.yaml
 nfpms:
-  # note that this is an array of nfpm configs
   - #
-
-    # Name of the package.
-    # Default: ProjectName
-    # Templates: allowed (since v1.18)
     package_name: testmyapp
-
-    # You can change the file name of the package.
-    #
-    # Default: '{{ .PackageName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'
-    # Templates: allowed
     file_name_template: "{{ .ConventionalFileName }}"
-
-    # Your app's vendor.
     vendor: Gjergji Ramku
-
-    # Your app's homepage.
     homepage: https://testmyapp.io/
-
-    # Your app's maintainer (probably you).
     maintainer: Gjergji Ramku <https://github.com/gjergj>
-
-    # Your app's description.
     description: |-
       Quickly test your web app
-
-    # Your app's license.
     license: https://github.com/Gjergj/testmyapp/blob/main/LICENSE
-
-    # Formats to be generated.
     formats:
       - apk
       - deb
       - rpm
       - termux.deb
       - archlinux
-
-    # Umask to be used on files without explicit mode set. (overridable)
-    #
-    # Default: 0o002 (will remove world-writable permissions)
-    # Since: v1.19
     umask: 0o002
-
-    # Path that the binaries should be installed.
-    #
-    # Default: '/usr/bin'
     bindir: /usr/bin
 
     # Scripts to execute during the installation of the package. (overridable)
@@ -127,3 +101,38 @@ nfpms:
 #      postinstall: "scripts/postinstall.sh"
 #      preremove: "scripts/preremove.sh"
 #      postremove: "scripts/postremove.sh"
+
+winget:
+  - name: testmyapp
+    publisher: gjergj
+    short_description: Quickly test your web app
+    license: MIT
+    homepage: https://testmyapp.io/
+    publisher_url: https://testmyapp.io/
+    publisher_support_url: https://github.com/Gjergj/testmyapp/issues
+    package_identifier: gjergj.testmyapp
+    commit_author:
+      name: testmyapp-bot
+      email: gjergjiramku@gmail.com
+    release_notes: "{{.Changelog}}"
+    tags:
+      - build
+      - build-tool
+      - devops
+      - go
+      - webapp
+      - tool
+      - webhost
+      - web
+    skip_upload: false
+    repository:
+      owner: gjergj
+      name: winget-pkgs
+      branch: "{{.ProjectName}}-v{{.Version}}"
+      pull_request:
+        enabled: true
+        draft: true
+        base:
+          owner: microsoft
+          name: winget-pkgs
+          branch: master

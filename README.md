@@ -14,9 +14,6 @@ brew install gjergj/tap/testmyapp
 ```bash
 winget install testmyapp
 ```
-```bash
-choco install testmyapp
-```
 #### Linux
 Locate the latest release from the [releases page](https://github.com/Gjergj/testmyapp/releases) and download the appropriate package for your system.
 
