@@ -13,6 +13,11 @@ type ApiResponse struct {
 	Message string `json:"message"`
 }
 
+type SignupResponse struct {
+	ApiResponse
+	UserID string `json:"user_id"`
+}
+
 type LoginResponse struct {
 	ApiResponse
 	UserID       string `json:"user_id"`

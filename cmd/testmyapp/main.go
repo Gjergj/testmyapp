@@ -40,6 +40,7 @@ func main() {
 			watchCommand(),
 			versionCommand(),
 			deleteCommand(),
+			signupCommand(),
 		},
 		Exec: run,
 	}

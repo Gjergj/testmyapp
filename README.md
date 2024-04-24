@@ -25,6 +25,11 @@ sudo dpkg -i testmyapp_0.0.68_amd64.deb
 
 
 ### Commands
+#### Sign UP
+```bash
+testmyapp signup -u=<username>
+```
+
 #### Login
 ```bash
 testmyapp login -u=<username>

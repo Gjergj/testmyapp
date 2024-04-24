@@ -229,3 +229,78 @@ func (c *CustomHTTPClient) Login(username, password string) (string, string, str
 	c.RefreshToken = apiResp.RefreshToken
 	return c.Token, c.RefreshToken, apiResp.UserID, nil
 }
+
+func (c *CustomHTTPClient) SignUp(username, password string) (string, error) {
+	// URL to send the POST request to
+	serverURL := apiHost + "/v1/signup"
+
+	// Credentials
+	creds := models.LoginRequest{
+		Username: username,
+		Password: password,
+	}
+	jsonData, err := json.Marshal(creds)
+	if err != nil {
+		return "", err
+	}
+
+	response, err := http.Post(serverURL, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Println("Error making POST request:", err)
+		return "", err
+	}
+	defer response.Body.Close()
+
+	// Read the response body
+	responseBody, err := io.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return "", err
+	}
+
+	// Parse the response body to get the JWT and refresh token
+	apiResp := models.SignupResponse{}
+	err = json.Unmarshal(responseBody, &apiResp)
+	if err != nil {
+		fmt.Println("Error parsing JSON response:", err)
+		return "", err
+	}
+	if response.StatusCode != http.StatusOK {
+		return "", errors.New(apiResp.Message)
+	}
+	return apiResp.UserID, nil
+}
+
+func (c *CustomHTTPClient) VerifyOTP(userID, otpCode string) (string, string, string, error) {
+	serverURL := fmt.Sprintf("%s/v1/verifyotp/%s/%s", apiHost, userID, otpCode)
+
+	response, err := http.Get(serverURL)
+	if err != nil {
+		fmt.Println("Error making POST request:", err)
+		return "", "", "", err
+	}
+	defer response.Body.Close()
+
+	// Read the response body
+	responseBody, err := io.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return "", "", "", err
+	}
+
+	// Parse the response body to get the JWT and refresh token
+	apiResp := models.LoginResponse{}
+	err = json.Unmarshal(responseBody, &apiResp)
+	if err != nil {
+		fmt.Println("Error parsing JSON response:", err)
+		return "", "", "", err
+	}
+
+	if response.StatusCode != http.StatusOK {
+		return "", "", "", errors.New(apiResp.Message)
+	}
+
+	c.Token = apiResp.Token
+	c.RefreshToken = apiResp.RefreshToken
+	return c.Token, c.RefreshToken, apiResp.UserID, nil
+}
