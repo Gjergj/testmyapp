@@ -27,12 +27,12 @@ sudo dpkg -i testmyapp_0.0.68_amd64.deb
 ### Commands
 #### Sign UP
 ```bash
-testmyapp signup -u=<username>
+testmyapp signup -u=<your_email_address>
 ```
 
 #### Login
-```bash
-testmyapp login -u=<username>
+```bas
+testmyapp login -u=<your_email_address>
 ```
 
 #### Upload your web site
@@ -47,11 +47,13 @@ testmyapp list
 ```
 
 #### Delete a project.
-Will only delete the project from the testmyapp.io server. It will not delete anything machine.
+Will delete a project that is in the current directory.
+
+Will only delete the project from the testmyapp.io server. It will not delete anything on your machine.
 ```bash
 testmyapp delete
 ```
-Will delete a project that is in the current directory.
+
 To delete a specific project:
 ```bash
 testmyapp delete -p=<project-id>
