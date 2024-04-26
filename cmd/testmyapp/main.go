@@ -41,6 +41,7 @@ func main() {
 			versionCommand(),
 			deleteCommand(),
 			signupCommand(),
+			signoutCommand(),
 		},
 		Exec: run,
 	}

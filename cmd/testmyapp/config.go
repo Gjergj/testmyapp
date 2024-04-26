@@ -142,6 +142,22 @@ func (c *Config) Token(username string) (string, string, string) {
 	return p.Token, p.UserID, username
 }
 
+func (c *Config) Clear(username string) {
+	//username not specified and more than one account exists
+	if len(c.Accounts) > 1 && username == "" {
+		fmt.Println("Please specify an account")
+		return
+	}
+	_, ok := c.Accounts[username]
+	if !ok {
+		// return the first account
+		for k, _ := range c.Accounts {
+			username = k
+		}
+	}
+	delete(c.Accounts, username)
+}
+
 func (c *Config) RefreshToken(username string) (string, string) {
 	//username not specified and more than one account exists
 	if len(c.Accounts) > 1 && username == "" {

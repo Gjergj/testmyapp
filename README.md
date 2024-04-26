@@ -30,11 +30,6 @@ sudo dpkg -i testmyapp_0.0.68_amd64.deb
 testmyapp signup -u=<your_email_address>
 ```
 
-#### Login
-```bas
-testmyapp login -u=<your_email_address>
-```
-
 #### Upload your web site
 Create an `index.html` file in the current directory and upload it to the project.
 ```bash
@@ -65,6 +60,16 @@ This will watch for changes in the current directory and upload the changes to t
 testmyapp watch
 ```
 Refresh browser to see changes.
+
+#### Logout
+```bash
+testmyapp signout
+```
+
+#### Login
+```bas
+testmyapp login -u=<your_email_address>
+```
 
 ### Update
 ```bash

@@ -206,7 +206,7 @@ func (c *CustomHTTPClient) Login(username, password string) (string, string, str
 
 	// Check the response status
 	if response.StatusCode != http.StatusOK {
-		fmt.Printf("HTTP request failed with status code: %d\n", response.StatusCode)
+		err = fmt.Errorf("HTTP request failed with status code: %d\n", response.StatusCode)
 		return "", "", "", err
 	}
 
