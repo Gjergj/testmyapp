@@ -6,11 +6,22 @@ import (
 	"flag"
 	"fmt"
 	"github.com/Gjergj/testmyapp/pkg/models"
+	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/table"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"io"
 	"log"
 	"os"
 )
+
+const (
+	existsOnlyLocally  exists = "Local"
+	existsOnlyOnRemote exists = "Remote"
+	existsOnBoth       exists = "Both"
+	existsHere         exists = "Current Directory"
+)
+
+type exists string
 
 func listProjectCommand() *ffcli.Command {
 	c, err := getConfig()
@@ -91,42 +102,34 @@ func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 		return
 	}
 	type p struct {
-		Icon               string
-		ProjectURL         string
-		ProjectDir         string
-		ProjectName        string
-		ExistsOnlyLocally  bool
-		ExistsOnlyOnRemote bool
+		ProjectURL  string
+		ProjectDir  string
+		ProjectName string
+		Exists      exists
 	}
 	projects := make(map[string]p)
 
 	for _, project := range apiResp.Projects {
 		projects[project.ProjectName] = p{
-			Icon:               "❌",
-			ProjectURL:         project.URL,
-			ProjectName:        project.ProjectName,
-			ProjectDir:         "",
-			ExistsOnlyLocally:  false,
-			ExistsOnlyOnRemote: true,
+			ProjectURL:  project.URL,
+			ProjectName: project.ProjectName,
+			ProjectDir:  "",
+			Exists:      existsOnlyOnRemote,
 		}
 		for _, rp := range c.Accounts[userName].Projects {
 			if rp.ProjectName == project.ProjectName && rp.ProjectDir == pwd {
 				projects[project.ProjectName] = p{
-					Icon:               "→",
-					ProjectURL:         project.URL,
-					ProjectName:        project.ProjectName,
-					ProjectDir:         rp.ProjectDir,
-					ExistsOnlyLocally:  false,
-					ExistsOnlyOnRemote: false,
+					ProjectURL:  project.URL,
+					ProjectName: project.ProjectName,
+					ProjectDir:  rp.ProjectDir,
+					Exists:      existsHere,
 				}
 			} else if rp.ProjectName == project.ProjectName {
 				projects[project.ProjectName] = p{
-					Icon:               "✔",
-					ProjectURL:         project.URL,
-					ProjectName:        project.ProjectName,
-					ProjectDir:         rp.ProjectDir,
-					ExistsOnlyLocally:  false,
-					ExistsOnlyOnRemote: false,
+					ProjectURL:  project.URL,
+					ProjectName: project.ProjectName,
+					ProjectDir:  rp.ProjectDir,
+					Exists:      existsOnBoth,
 				}
 			}
 		}
@@ -134,30 +137,29 @@ func getAllProjectsByUserID(username string, printDirs bool, c *Config) {
 	for _, rp := range c.Accounts[userName].Projects {
 		if _, ok := projects[rp.ProjectName]; !ok {
 			projects[rp.ProjectName] = p{
-				Icon:               "❌",
-				ProjectURL:         "",
-				ProjectName:        rp.ProjectName,
-				ProjectDir:         rp.ProjectDir,
-				ExistsOnlyLocally:  true,
-				ExistsOnlyOnRemote: false,
+				ProjectURL:  "",
+				ProjectName: rp.ProjectName,
+				ProjectDir:  rp.ProjectDir,
+				Exists:      existsOnlyLocally,
 			}
 		}
 	}
+	projectTable := table.New().
+		Border(lipgloss.NormalBorder()).
+		BorderStyle(lipgloss.NewStyle().Foreground(lipgloss.Color("#008000"))).Width(120)
+	if printDirs {
+		projectTable.Headers("Exists", "Project Name", "URL", "Dir")
+	} else {
+		projectTable.Headers("Exists", "Project Name", "URL")
+	}
+
 	// Print the projects
 	for _, project := range projects {
-		fmt.Printf("%s", project.Icon)
-		if project.ExistsOnlyLocally {
-			fmt.Printf("\t%s", "Local only")
-		} else if project.ExistsOnlyOnRemote {
-			fmt.Printf("\t%s", "Remote Only")
-		} else {
-			fmt.Printf("\t\t")
-		}
-		fmt.Printf("\t%s", project.ProjectName)
-		fmt.Printf("\t%s", project.ProjectURL)
 		if printDirs {
-			fmt.Printf("\t%s", project.ProjectDir)
+			projectTable.Row(string(project.Exists), project.ProjectName, project.ProjectURL, project.ProjectDir)
+		} else {
+			projectTable.Row(string(project.Exists), project.ProjectName, project.ProjectURL)
 		}
-		fmt.Println()
 	}
+	fmt.Println(projectTable)
 }
