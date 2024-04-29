@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	apiHost             = "http://testmyapp.io:8080"
+	apiHost             = "https://managerapi.testmyapp.io"
 	configFileName      = "config.yaml"
 	ModeForce      Mode = iota
 )
